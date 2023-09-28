@@ -76,12 +76,15 @@ flutter:
      - asset/historical_events_database.db
      - asset/context_app_background.png
      - asset/photos/
+     - asset/icon/
   #   - images/a_dot_ham.jpeg
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
-  image_path: "asset/Context_icon_512x512.png"
+  image_path: "asset/icon/Context_icon_512x512.png"
+  adaptive_icon_background: "asset/icon/Context_icon_background.png"
+  adaptive_icon_foreground: "asset/icon/Context_icon_foreground.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
 
   # An image asset can refer to one or more resolution-specific "variants", see

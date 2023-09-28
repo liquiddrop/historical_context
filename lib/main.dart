@@ -4,18 +4,27 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:historical_context/saved_settings.dart';
 import 'package:historical_context/single_timeline.dart';
 import 'package:historical_context/top_level_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'database_helper.dart';
 import 'dual_timeline.dart';
 import 'model/events.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final savedSettings = await SharedPreferences.getInstance();
   runApp(ProviderScope(
+    overrides: [
+      savedSettingsServiceProvider.overrideWithValue(
+        SavedSettings(savedSettings),
+      ),
+    ],
     child: ContextApp(),
   ));
 }
@@ -26,6 +35,7 @@ class ContextApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var savedSettings = context.read(savedSettingsServiceProvider);
     MobileAds.instance.initialize();
     return MaterialApp(
       title: 'Context',
