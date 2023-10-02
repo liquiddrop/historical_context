@@ -203,7 +203,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ElevatedButton(
                   child: Text('World History'),
                   onPressed: () async {
-                    var tempEvents = await sqlDatabase.findByImportance(5);
+                    //get all 5 and 4 star events
+                    List<HistoricalEvent> tempEvents = await sqlDatabase.findByImportance(5);
+                    tempEvents.addAll(await sqlDatabase.findByImportance(4));
+                    //sort the list
+                    tempEvents.sort((a,b) => a.year.compareTo(b.year));
                     titleStringToPush = 'World History';
                     if (widget.inputList.isNotEmpty) {
                       titleStringToPush += ' vs ${widget.oldTitle}';
