@@ -18,10 +18,15 @@ class DatabaseHelper {
     init(currentDatabaseVersion);
   }
 
+  delayForDatabaseProvider() async {
+    await Future.delayed(Duration(seconds: 1));
+  }
+
   Future<bool> openSqlDatabase()async{
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String databasePath = join(appDocDir.path, _databaseName);
     this._db = await openDatabase(databasePath);
+    await delayForDatabaseProvider();
     initialized = true;
     return true;
   }
@@ -64,6 +69,7 @@ class DatabaseHelper {
       }
     }
     this._db = await openDatabase(path);
+    await delayForDatabaseProvider();
     initialized = true;
   }
 
